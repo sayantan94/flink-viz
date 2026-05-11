@@ -5,6 +5,11 @@ target/
 .idea/
 *.iml
 
+# Local Flink install + runtime state (downloaded, not source)
+infra/local/flink-1.18.1/
+infra/local/flink-*-bin-scala_*.tgz
+infra/local/state/
+
 # Python
 __pycache__/
 *.pyc
