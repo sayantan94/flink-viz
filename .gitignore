@@ -1,0 +1,35 @@
+# Java
+target/
+*.class
+*.jar
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# OS
+.DS_Store
+
+# Flink
+flink-checkpoints/
+flink-savepoints/
+flink-local-data/
+logs/
+
+# Env
+.env
+.env.local
+
+# Runtime
+*.pid
+*.log
