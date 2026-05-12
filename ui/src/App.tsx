@@ -44,11 +44,13 @@ export default function App() {
           </span>
         </div>
         <div className="flex items-center gap-4 text-xs">
-          <span className={jobRunning ? "text-emerald-400" : "text-rose-400"}>
-            ● {jobRunning ? `job ${ctx.dag?.job_name}` : "no job"}
+          <span className={"flex items-center gap-1.5 " + (jobRunning ? "text-emerald-400" : "text-rose-400")}>
+            <span className={"inline-block w-2 h-2 rounded-full " + (jobRunning ? "bg-emerald-400 animate-pulse-ring" : "bg-rose-400")} />
+            {jobRunning ? `job ${ctx.dag?.job_name}` : "no job"}
           </span>
-          <span className={connected ? "text-emerald-400" : "text-rose-400"}>
-            ● {connected ? "ws live" : "ws disconnected"}
+          <span className={"flex items-center gap-1.5 " + (connected ? "text-emerald-400" : "text-rose-400")}>
+            <span className={"inline-block w-2 h-2 rounded-full " + (connected ? "bg-emerald-400 animate-pulse-ring" : "bg-rose-400")} />
+            {connected ? "ws live" : "ws disconnected"}
           </span>
           <a
             href="http://localhost:8081"
