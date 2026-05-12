@@ -15,7 +15,7 @@ if [[ ! -f "$CONF.patched" ]]; then
     -e 's|^rest.bind-address:.*|rest.bind-address: 0.0.0.0|' \
     -e 's|^jobmanager.bind-host:.*|jobmanager.bind-host: 0.0.0.0|' \
     -e 's|^taskmanager.bind-host:.*|taskmanager.bind-host: 0.0.0.0|' \
-    -e 's|^taskmanager.numberOfTaskSlots:.*|taskmanager.numberOfTaskSlots: 4|' \
+    -e 's|^taskmanager.numberOfTaskSlots:.*|taskmanager.numberOfTaskSlots: 16|' \
     "$CONF"
   touch "$CONF.patched"
 fi

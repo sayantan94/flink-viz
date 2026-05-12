@@ -9,6 +9,9 @@
   <modules>
     <module>common</module>
     <module>topk-products</module>
+    <module>window-stats</module>
+    <module>view-purchase-join</module>
+    <module>fraud-cep</module>
   </modules>
 
   <properties>

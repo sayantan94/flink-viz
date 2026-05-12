@@ -45,3 +45,53 @@ export type WatermarkMsg = {
   ts: number;
   subtasks: WatermarkSubtask[];
 };
+
+export type WindowOut = {
+  kind: "tumbling" | "sliding" | "session";
+  window_start_ms: number;
+  window_end_ms: number;
+  count: number;
+  user_id?: string | null;
+  _recv_ts?: number;
+};
+
+export type TumblingMsg = { recent: WindowOut[] } | WindowOut;
+export type SlidingMsg = { recent: WindowOut[] } | WindowOut;
+export type SessionMsg = { recent: WindowOut[] };
+
+export type JoinMatch = {
+  user_id: string;
+  product_id_viewed: string;
+  product_id_purchased: string;
+  view_ts: number;
+  purchase_ts: number;
+  delta_ms: number;
+  amount_usd: number;
+  _recv_ts?: number;
+};
+export type JoinMsg = { recent: JoinMatch[] };
+
+export type FraudAlert = {
+  user_id: string;
+  purchase_count: number;
+  total_amount_usd: number;
+  first_ts: number;
+  last_ts: number;
+  span_ms: number;
+  _recv_ts?: number;
+};
+export type FraudMsg = { recent: FraudAlert[] };
+
+export type GeneratorStats = {
+  sent: number;
+  late_sent: number;
+  purchases_sent: number;
+  fraud_sent: number;
+  rate: number;
+  purchase_rate: number;
+  late_pct: number;
+  late_max_ms: number;
+  spike_active: boolean;
+  spike_until: number;
+  fraud_active: boolean;
+};
