@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useWebSocket } from "./hooks/useWebSocket";
 import { ConceptTree } from "./teaching/ConceptTree";
 import { ExplainPane } from "./teaching/ExplainPane";
 import { Controls } from "./teaching/Controls";
+import { LessonRunner } from "./teaching/LessonRunner";
+import { LESSONS } from "./teaching/lessons";
 import { GROUPS, FIRST_CONCEPT_ID } from "./teaching/concepts";
 import type {
   TopKMsg,
@@ -31,10 +33,15 @@ export default function App() {
   const wsUrl = `ws://${window.location.hostname}:3000/ws`;
   const { lastByType, connected } = useWebSocket(wsUrl);
   const [activeId, setActiveId] = useState(FIRST_CONCEPT_ID);
+  const [lessonOn, setLessonOn] = useState(false);
   const setActive = (id: string) => {
     setActiveId(id);
+    setLessonOn(false);
     window.location.hash = id;
   };
+  useEffect(() => {
+    setLessonOn(false);
+  }, [activeId]);
 
   const allConcepts = useMemo(
     () => GROUPS.flatMap((g) => g.concepts),
@@ -92,15 +99,33 @@ export default function App() {
         </aside>
         <main className="flex-1 flex flex-col min-w-0">
           <section className="flex-1 p-6 overflow-y-auto min-h-0">
-            <div className="mb-4">
-              <h2 className="text-xl font-semibold">{active.title}</h2>
-              <p className="text-sm text-zinc-500">{active.oneLiner}</p>
+            <div className="mb-4 flex justify-between items-end gap-4">
+              <div>
+                <h2 className="text-xl font-semibold">{active.title}</h2>
+                <p className="text-sm text-zinc-500">{active.oneLiner}</p>
+              </div>
+              {LESSONS[active.id] && !lessonOn && (
+                <button
+                  onClick={() => setLessonOn(true)}
+                  className="text-xs px-3 py-2 rounded font-semibold bg-emerald-600 hover:bg-emerald-500 text-zinc-950 whitespace-nowrap"
+                >
+                  ▶ Start guided lesson ({LESSONS[active.id].steps.length} steps)
+                </button>
+              )}
             </div>
             <div className="bg-zinc-900/30 border border-zinc-800 rounded-lg p-5 min-h-[280px]">
               {active.viz(ctx, actions)}
             </div>
           </section>
-          <ExplainPane concept={active} />
+          {lessonOn && LESSONS[active.id] ? (
+            <LessonRunner
+              lesson={LESSONS[active.id]}
+              conceptTitle={active.title}
+              onExit={() => setLessonOn(false)}
+            />
+          ) : (
+            <ExplainPane concept={active} />
+          )}
         </main>
       </div>
     </div>
